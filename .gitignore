@@ -1,0 +1,39 @@
+# Generated Output
+/output/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Python Environment
+__pycache__/
+*.pyc
+venv/
+*.env
+
+
+# IDE (Code Editors)
+.vscode/
+.idea/
+
+
+# Java (Compiled Java)
+*.class
+*.jar
+*.war
+*.ear
+
+# NetBeans
+nbproject/
+build/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+# Node.js (Node.js Environment
+node_modules/
+package-lock.json
+npm-debug.log
+
+
