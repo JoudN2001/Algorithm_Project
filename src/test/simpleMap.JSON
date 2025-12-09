@@ -1,0 +1,18 @@
+{
+  "title": "Simple Verification Map",
+  "description": "Standard case to verify Dijkstra works correctly",
+  "startNode": "A",
+  "endNode": "C",
+  "nodes": [
+    { "id": "A", "x": 100, "y": 300 },
+    { "id": "B", "x": 300, "y": 100 },
+    { "id": "C", "x": 500, "y": 300 },
+    { "id": "D", "x": 300, "y": 500 }
+  ],
+  "edges": [
+    { "from": "A", "to": "C", "weight": 10 },
+    { "from": "A", "to": "B", "weight": 2 },
+    { "from": "B", "to": "D", "weight": 1 },
+    { "from": "D", "to": "C", "weight": 3 }
+  ]
+}

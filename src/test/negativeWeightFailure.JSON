@@ -1,0 +1,16 @@
+{
+  "title": "Negative Weight Failure",
+  "description": "Demonstrates why Dijkstra fails with negative weights (EV charging scenario)",
+  "startNode": "A",
+  "endNode": "B",
+  "nodes": [
+    { "id": "A", "x": 100, "y": 300 },
+    { "id": "B", "x": 400, "y": 100 },
+    { "id": "C", "x": 400, "y": 500 }
+  ],
+  "edges": [
+    { "from": "A", "to": "B", "weight": 5 },
+    { "from": "A", "to": "C", "weight": 10 },
+    { "from": "C", "to": "B", "weight": -20 }
+  ]
+}
