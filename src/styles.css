@@ -1,0 +1,263 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: "Inter", sans-serif;
+}
+
+:root {
+    --bk-dark: #0F172A;
+    --bg-card: #1e293b;
+    --text-main: #E2E8F0;
+    --text-muted: #94A3B8;
+    --primary: #22C55E;
+    --border: #334155;
+    font-size: 10px;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bk-dark);
+}
+
+/* Header Styles */
+header {
+    width: auto;
+    background-color: var(--bg-card);
+    padding: 10px 20px;
+    color: var(--text-main);
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+
+.header-icon {
+    width: 35px;
+    height: 35px;
+    background-color: #1E393F;
+    color: var(--primary);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-left: 5px;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.phase {
+    font-size: 1.1rem;
+    font-weight: 400;
+    text-align: center;
+    padding: 5px 10px;
+    margin-left: 5px;
+    border-radius: 8px;
+    border: solid 1px var(--primary);
+    color: var(--primary);
+    background-color: #1e393f65;
+}
+
+/* Main Content Styles */
+.cards {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.card {
+    width: 90%;
+    background-color: var(--bg-card);
+    border-radius: 15px;
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    padding: 20px;
+}
+
+/* Canvas Styles */
+.canvas {
+    margin: 10px 0;
+    height: calc(100vh - 240px);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background-color: #020617;
+    background-image:
+        linear-gradient(#334155 1px, transparent 1px),
+        linear-gradient(90deg, #1e293b 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* Upload Component Styles */
+.upload {
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    background-color: var(--bg-card);
+}
+
+.note {
+    position: absolute;
+    top: 740px;
+    color: var(--text-muted);
+    font-size: 1.3rem;
+    align-self: left;
+    font-family: "Fragment Mono", monospace;
+}
+
+.upload button {
+    background-color: transparent;
+    color: var(--text-main);
+    border: none;
+    font-size: 2rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.upload svg {
+    color: var(--primary);
+    stroke-width: 0.25rem;
+    width: 30px;
+    height: 30px;
+}
+
+.upload svg#info {
+    width: 35px;
+    height: 35px;
+}
+
+.icon-text-upload {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Algorithm Selection Styles */
+.algorthim-select {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.algorthim {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 1.8rem;
+    gap: 10px;
+}
+
+.algorthim svg {
+    color: var(--primary);
+    width: 35px;
+    height: 35px;
+}
+
+.algorthim-select hr:nth-of-type(1) {
+    width: 100%;
+    margin-top: 10px;
+    border: 1.5px solid var(--border);
+    border-radius: 50%;
+}
+
+.algorthim-btn {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    margin: 15px 0;
+}
+
+#run-dijkstra,
+#run-A\*,
+#run-bellman {
+    padding: 10px;
+    font-size: 1.7rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
+    border-radius: 6px;
+}
+
+#run-dijkstra {
+    background-color: var(--primary);
+    color: var(--text-main);
+}
+
+#run-A\*,
+#run-bellman {
+    font-size: 1.3rem;
+}
+
+#run-dijkstra svg {
+    width: 35px;
+    height: 35px;
+    color: var(--text-main);
+}
+
+#run-A\* svg,
+#run-bellman svg {
+    width: 25px;
+    height: 25px;
+}
+
+#run-btn {
+    width: 100%;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 2rem;
+    color: var(--text-main);
+    background-color: var(--primary);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#run-btn svg {
+    width: 30px;
+    height: 30px;
+    color: var(--text-main);
+}
+
+.disabled {
+    display: flex;
+    flex-direction: row;
+    opacity: 0.5;
+    gap: 5px;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.algorthim-select hr:nth-of-type(2) {
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid var(--text-muted);
+    border-radius: 50%;
+}
