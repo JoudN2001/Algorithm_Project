@@ -112,6 +112,7 @@ header {
 
 /* Upload Component Styles */
 .upload {
+    position: relative;
     height: 60px;
     display: flex;
     flex-direction: row;
@@ -121,22 +122,26 @@ header {
     background-color: var(--bg-card);
 }
 
+.upload label {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
 .note {
     position: absolute;
-    top: 740px;
+    top: auto;
+    bottom: -25px;
+    left: 20px;
     color: var(--text-muted);
     font-size: 1.3rem;
     align-self: left;
     font-family: "Fragment Mono", monospace;
-}
-
-.upload button {
-    background-color: transparent;
-    color: var(--text-main);
-    border: none;
-    font-size: 2rem;
-    font-weight: 600;
-    cursor: pointer;
 }
 
 .upload svg {
@@ -146,9 +151,14 @@ header {
     height: 30px;
 }
 
+.icon-text-upload svg {
+    stroke-width: 0.18rem;
+}
+
 .upload svg#info {
     width: 35px;
     height: 35px;
+    cursor: pointer;
 }
 
 .icon-text-upload {
@@ -160,13 +170,13 @@ header {
 }
 
 /* Algorithm Selection Styles */
-.algorthim-select {
+.algorithm-select {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.algorthim {
+.algorithm {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -175,20 +185,20 @@ header {
     gap: 10px;
 }
 
-.algorthim svg {
+.algorithm svg {
     color: var(--primary);
     width: 35px;
     height: 35px;
 }
 
-.algorthim-select hr:nth-of-type(1) {
+.algorithm-select hr:nth-of-type(1) {
     width: calc(100% + 40px);
     margin-top: 10px;
     border: 1.5px solid var(--border);
     border-radius: 50%;
 }
 
-.algorthim-btn {
+.algorithm-btn {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -263,7 +273,7 @@ header {
     cursor: not-allowed;
 }
 
-.algorthim-select hr:nth-of-type(2) {
+.algorithm-select hr:nth-of-type(2) {
     width: 100%;
     margin-bottom: 10px;
     border: 1px solid var(--text-muted);
@@ -292,6 +302,13 @@ header {
 #code-display {
     max-height: unset;
     overflow: visible;
+    font-size: 1.1rem;
+}
+
+#log-display {
+    max-height: unset;
+    overflow: visible;
+    font-size: 1.25rem;
 }
 
 
@@ -304,7 +321,7 @@ header {
     gap: 0;
 }
 
-.algorthim-code {
+.algorithm-code {
     width: 90%;
     display: flex;
     flex-direction: row;
@@ -317,7 +334,7 @@ header {
     border-bottom-right-radius: 0;
 }
 
-.algorthim-code span {
+.algorithm-code span {
     font-family: "JetBrains Mono", monospace;
     font-size: 1.6rem;
 }
@@ -330,8 +347,8 @@ header {
 
 .circle {
     background-color: var(--text-main);
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
 }
 

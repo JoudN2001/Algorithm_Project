@@ -2,87 +2,88 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Route Optimizer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="normalize.css">
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Route Optimizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="normalize.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
-    <!-- Header Section -->
-    <header>
-        <i data-lucide="map" class="header-icon" stroke-width="1.5"></i>
-        <h1 class="title">Route Optimizer<span class="phase">Phase 2</span></h1>
-    </header>
+  <!-- Header Section -->
+  <header>
+    <i data-lucide="map" class="header-icon" stroke-width="1.5"></i>
+    <h1 class="title">Route Optimizer<span class="phase">Phase 2</span></h1>
+  </header>
 
-    <!-- Main Content Section -->
-    <main class="cards">
+  <!-- Main Content Section -->
+  <main class="cards">
 
-        <!-- Canvas -->
-        <div class="canvas card">
-            <span>Canvas:312x450</span>
+    <!-- Canvas -->
+    <div class="canvas card">
+      <span>Canvas:312x450</span>
+    </div>
+
+    <!-- Upload Button -->
+    <div class="upload card">
+      <input id="upload-btn" type="file" accept=".json" hidden>
+      <label for="upload-btn" class="icon-text-upload">
+        <i data-lucide="file-json"></i>
+        <span id="upload-text">Upload Your Map</span>
+      </label>
+      <i data-lucide="info" id="info"></i>
+      <span class="note">*accept Only file .JSON</span>
+    </div>
+
+    <!-- Algorithm Selection -->
+    <div class="algorithm-select card">
+      <div class="algorithm">
+        <i data-lucide="cpu"></i>
+        <h2>Algorithm</h2>
+      </div>
+      <hr>
+      <div class="algorithm-btn">
+        <button id="run-dijkstra">
+          <h3>Dijkstra</h3>
+          <i data-lucide="circle-check"></i>
+        </button>
+        <div class="disabled">
+          <button id="run-A*">
+            <h3>A* Search</h3>
+            <i data-lucide="lock"></i>
+          </button>
+          <button id="run-bellman">
+            <h3>Bellman</h3>
+            <i data-lucide="lock"></i>
+          </button>
         </div>
+      </div>
+      <hr>
+      <button id="run-btn">
+        <i data-lucide="play-circle"></i>
+        <h3>Run</h3>
+      </button>
+    </div>
 
-        <!-- Upload Button -->
-        <div class="upload card">
-            <div class="icon-text-upload">
-                <i data-lucide="upload"></i>
-                <button id="upload-btn" type="file">Upload Your Map</button>
-            </div>
-            <i data-lucide="info" id="info"></i>
-            <span class="note">*accept Only file .JSON</span>
+    <!-- Algorithm Code Display -->
+    <div class="code-wrapper">
+      <div class="algorithm-code card">
+        <span>Code Display</span>
+        <div class="circles">
+          <div class="circle"></div>
+          <div class="circle"></div>
+          <div class="circle"></div>
         </div>
+      </div>
 
-        <!-- Algorthim Selection -->
-        <div class="algorthim-select card">
-            <div class="algorthim">
-                <i data-lucide="cpu"></i>
-                <h2>Algorthim</h2>
-            </div>
-            <hr>
-            <div class="algorthim-btn">
-                <button id="run-dijkstra">
-                    <h3>Dijkstra</h3>
-                    <i data-lucide="circle-check"></i>
-                </button>
-                <div class="disabled">
-                    <button id="run-A*">
-                        <h3>A* Search</h3>
-                        <i data-lucide="lock"></i>
-                    </button>
-                    <button id="run-bellman">
-                        <h3>Bellman</h3>
-                        <i data-lucide="lock"></i>
-                    </button>
-                </div>
-            </div>
-            <hr>
-            <button id="run-btn">
-                <i data-lucide="play-circle"></i>
-                <h3>Run</h3>
-            </button>
-        </div>
-
-        <!-- Algorthim Code Display -->
-        <div class="code-wrapper">
-            <div class="algorthim-code card">
-                <span>Code Display</span>
-                <div class="circles">
-                    <div class="circle"></div>
-                    <div class="circle"></div>
-                    <div class="circle"></div>
-                </div>
-            </div>
-
-            <div class="code card">
-                <pre><code id="code-display">/**
+      <div class="code card">
+        <pre><code id="code-display">/**
  * Dijkstra Algorithm Class
  * This class handles the logic for finding the shortest path in a weighted graph.
  * It converts raw JSON data into an Adjacency List and executes the algorithm.
@@ -263,34 +264,35 @@ class Dijkstra {
   }
 }
 </code></pre>
-            </div>
-        </div>
+      </div>
+    </div>
 
-        <!-- Execution Log Display -->
-        <div class="code-wrapper">
-            <div class="execution-log algorthim-code  card">
-                <span>Execution Log</span>
-            </div>
-            <div class="log code card">
-                <pre><code id="log-display">&gt; System initialized.<br>&gt; Waiting for map data...<br>&gt; Ready.</code></pre>
-            </div>
-        </div>
-    </main>
+    <!-- Execution Log Display -->
+    <div class="code-wrapper">
+      <div class="execution-log algorithm-code  card">
+        <span>Execution Log</span>
+      </div>
+      <div class="log code card">
+        <pre><code id="log-display">&gt; System initialized.<br>&gt; Waiting for map data...<br>&gt; Ready.</code></pre>
+      </div>
+    </div>
+  </main>
 
-    <!-- Footer Section -->
-    <footer>
-        <div class="links">
-            <a href="#">About</a>
-            <a href="#">Our Team</a>
-            <a href="#">Help</a>
-        </div>
-        <span>© 2025 Route Optimizer. All rights reserved.</span>
-    </footer>
+  <!-- Footer Section -->
+  <footer>
+    <div class="links">
+      <a href="#">About</a>
+      <a href="#">Our Team</a>
+      <a href="#">Help</a>
+    </div>
+    <span>© 2025 Route Optimizer. All rights reserved.</span>
+  </footer>
 
-    <script>
-        lucide.createIcons();
-    </script>
-    <script src="Dijkstra.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+  <script src="script.js"></script>
+  <script src="Dijkstra.js"></script>
 </body>
 
 </html>
