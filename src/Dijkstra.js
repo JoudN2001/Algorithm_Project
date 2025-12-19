@@ -33,7 +33,7 @@ class Dijkstra {
         if (this.adjacencyList.has(edge.from)) {
           this.adjacencyList.get(edge.from).push({
             to: edge.to,
-            weight: edge.weight,
+            weight: Number(edge.weight),
           });
         }
       });
@@ -44,7 +44,7 @@ class Dijkstra {
    * Helper Method: getLowestCostNode
    * Finds the unvisited node with the smallest known distance.
    * This represents the "Greedy" step of the algorithm.
-   * * @param {Map} distances - Current known distances.
+   * @param {Map} distances - Current known distances.
    * @param {Set} unvisited - Set of nodes that haven't been processed yet.
    * @returns {String|null} - The ID of the node with the lowest cost.
    */
@@ -67,7 +67,7 @@ class Dijkstra {
    * Main Method: run
    * Executes Dijkstra's algorithm from a start node to an end node.
    * Uses defaults from JSON if arguments are not provided.
-   * * @param {String} [startNodeId] - Optional override for start node.
+   * @param {String} [startNodeId] - Optional override for start node.
    * @param {String} [endNodeId] - Optional override for destination node.
    * @returns {Object} - Contains found status, path array, total cost, and execution logs.
    */
@@ -142,6 +142,11 @@ class Dijkstra {
         // Calculate potential new distance
         let newDist = distances.get(currentNode) + neighbor.weight;
         let currentNeighborDist = distances.get(neighbor.to);
+
+        // Debugging log (comment out in production)
+        logs.push(
+          `Checking neighbor ${neighbor.to}: newDist ${newDist} vs old ${currentNeighborDist}`
+        );
 
         // If we found a shorter path, update the records
         if (newDist < currentNeighborDist) {

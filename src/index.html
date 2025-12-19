@@ -27,7 +27,11 @@
 
     <!-- Canvas -->
     <div class="canvas card">
-      <span>Canvas:312x450</span>
+      <canvas id="graphCanvas"></canvas>
+      <div id="canvas-placeholder">
+        <i data-lucide="grid" style="opacity: 0.2; width: 40px; height: 40px;"></i>
+        <span>Waiting for Map...</span>
+      </div>
     </div>
 
     <!-- Upload Button -->
@@ -37,7 +41,7 @@
         <i data-lucide="file-json"></i>
         <span id="upload-text">Upload Your Map</span>
       </label>
-      <i data-lucide="info" id="info"></i>
+      <i data-lucide="info" id="info"></i> <!-- pop up window -->
       <span class="note">*accept Only file .JSON</span>
     </div>
 
@@ -129,7 +133,7 @@ class Dijkstra {
    * Helper Method: getLowestCostNode
    * Finds the unvisited node with the smallest known distance.
    * This represents the "Greedy" step of the algorithm.
-   * * @param {Map} distances - Current known distances.
+   * @param {Map} distances - Current known distances.
    * @param {Set} unvisited - Set of nodes that haven't been processed yet.
    * @returns {String|null} - The ID of the node with the lowest cost.
    */
@@ -152,7 +156,7 @@ class Dijkstra {
    * Main Method: run
    * Executes Dijkstra's algorithm from a start node to an end node.
    * Uses defaults from JSON if arguments are not provided.
-   * * @param {String} [startNodeId] - Optional override for start node.
+   * @param {String} [startNodeId] - Optional override for start node.
    * @param {String} [endNodeId] - Optional override for destination node.
    * @returns {Object} - Contains found status, path array, total cost, and execution logs.
    */
@@ -291,8 +295,8 @@ class Dijkstra {
   <script>
     lucide.createIcons();
   </script>
-  <script src="script.js"></script>
   <script src="Dijkstra.js"></script>
+  <script src="script.js"></script>
 </body>
 
 </html>
