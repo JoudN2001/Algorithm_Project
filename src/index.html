@@ -53,20 +53,22 @@
       </div>
       <hr>
       <div class="algorithm-btn">
-        <button id="run-dijkstra">
+        <button id="run-dijkstra" class="active">
           <h3>Dijkstra</h3>
           <i data-lucide="circle-check"></i>
         </button>
-        <div class="disabled">
-          <button id="run-A*">
-            <h3>A* Search</h3>
-            <i data-lucide="lock"></i>
-          </button>
-          <button id="run-bellman">
-            <h3>Bellman</h3>
-            <i data-lucide="lock"></i>
-          </button>
-        </div>
+        <button id="run-dijkstra-pq">
+          <h3>Dijkstra (Enhanced)</h3>
+          <i data-lucide="circle-check"></i>
+        </button>
+        <button id="run-bellman">
+          <h3>Bellman</h3>
+          <i data-lucide="circle-check"></i>
+        </button>
+        <button id="run-A*" class="disabled">
+          <h3>A* Search</h3>
+          <i data-lucide="lock"></i>
+        </button>
       </div>
       <hr>
       <button id="run-btn">
@@ -296,6 +298,8 @@ class Dijkstra {
     lucide.createIcons();
   </script>
   <script src="Dijkstra.js"></script>
+  <script src="priorityQueueDijkstra.js"></script>
+  <script src="BellmanFord.js"></script>
   <script src="script.js"></script>
 </body>
 

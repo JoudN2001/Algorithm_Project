@@ -18,7 +18,6 @@ class Dijkstra {
     // Capture Start and End nodes from JSON configuration
     this.defaultStart = graphData.startNode || null;
     this.defaultEnd = graphData.endNode || null;
-
     // 1. Initialize all nodes in the adjacency list with empty arrays
     if (graphData.nodes) {
       graphData.nodes.forEach((node) => {

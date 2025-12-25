@@ -1,0 +1,3 @@
+class BellmanFord {
+  constructor(graphData) {}
+}
