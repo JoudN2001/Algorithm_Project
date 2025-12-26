@@ -105,6 +105,7 @@ class Dijkstra {
 
     // The distance to the start node is always 0
     distances.set(startNodeId, 0);
+    logs.push(`Start Node: ${startNodeId}, End Node: ${endNodeId}`);
     logs.push(`Initial state: Start at [${startNodeId}] with distance 0`);
 
     // --- Main Algorithm Loop ---

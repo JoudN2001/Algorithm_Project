@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Viewer (Big Nodes + Weights)</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #0F172A;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        .controls {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #1E293B;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+        }
+
+        .controls h1 {
+            font-size: 1.2rem;
+            margin-right: 20px;
+            color: #22C55E;
+        }
+
+        .canvas-container {
+            margin-top: 60px;
+            width: 100vw;
+            height: calc(100vh - 60px);
+            overflow: auto;
+            /* Scrollbars enabled */
+            background-color: #020617;
+            background-image:
+                linear-gradient(#1e293b 1px, transparent 1px),
+                linear-gradient(90deg, #1e293b 1px, transparent 1px);
+            background-size: 40px 40px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        canvas {
+            margin: 50px;
+            background-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="controls">
+        <h1>Map Viewer</h1>
+        <input type="file" id="file-upload" accept=".json">
+        <span id="status" style="margin-left: 20px; color: #94A3B8;">Waiting for file...</span>
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="bigMapCanvas"></canvas>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('file-upload');
+        const statusText = document.getElementById('status');
+        const canvas = document.getElementById('bigMapCanvas');
+        const ctx = canvas.getContext('2d', { alpha: false }); // Optimize for no transparency
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const data = JSON.parse(event.target.result);
+                    statusText.textContent = `Processing ${data.nodes.length} nodes...`;
+
+                    // Small delay to let UI update
+                    requestAnimationFrame(() => {
+                        drawGraphOptimized(data);
+                        statusText.textContent = `Done! Map: ${data.title || "Untitled"}`;
+                    });
+                } catch (err) {
+                    console.error(err);
+                    alert("Invalid JSON file");
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        function drawGraphOptimized(data) {
+            // 1. Calculate Bounds
+            let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+            for (let i = 0; i < data.nodes.length; i++) {
+                const n = data.nodes[i];
+                if (n.x < minX) minX = n.x;
+                if (n.x > maxX) maxX = n.x;
+                if (n.y < minY) minY = n.y;
+                if (n.y > maxY) maxY = n.y;
+            }
+
+            // 2. Safety Scale Logic
+            const RAW_WIDTH = maxX - minX || 100;
+            const RAW_HEIGHT = maxY - minY || 100;
+            const PADDING = 100;
+
+            // Zoom logic: Ensure nodes are spread out enough for labels (approx 80-100px apart)
+            let scale = 6.0;
+
+            // Safety cap: Max 16,000px canvas size
+            if ((RAW_WIDTH * scale) > 16000) scale = 16000 / RAW_WIDTH;
+            if ((RAW_HEIGHT * scale) > 16000) scale = 16000 / RAW_HEIGHT;
+
+            const finalWidth = Math.floor((RAW_WIDTH * scale) + (PADDING * 2));
+            const finalHeight = Math.floor((RAW_HEIGHT * scale) + (PADDING * 2));
+
+            canvas.width = finalWidth;
+            canvas.height = finalHeight;
+
+            // Converter Helpers
+            const getX = (x) => Math.floor(PADDING + ((x - minX) * scale));
+            const getY = (y) => Math.floor(PADDING + ((y - minY) * scale));
+
+            // 3. Clear Background
+            ctx.fillStyle = "#020617";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Create Node Map for fast lookup
+            const nodeMap = new Map();
+            for (let n of data.nodes) nodeMap.set(n.id, n);
+
+            // --- LAYER 1: EDGES (Lines) ---
+            ctx.beginPath();
+            ctx.strokeStyle = "rgba(34, 197, 94, 0.4)"; // Matrix Green Lines
+            ctx.lineWidth = 2;
+
+            for (let edge of data.edges) {
+                const n1 = nodeMap.get(edge.from);
+                const n2 = nodeMap.get(edge.to);
+                if (n1 && n2) {
+                    ctx.moveTo(getX(n1.x), getY(n1.y));
+                    ctx.lineTo(getX(n2.x), getY(n2.y));
+                }
+            }
+            ctx.stroke();
+
+            // --- LAYER 2: WEIGHTS (Bubbles) ---
+            ctx.font = "bold 11px sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            for (let edge of data.edges) {
+                const n1 = nodeMap.get(edge.from);
+                const n2 = nodeMap.get(edge.to);
+                if (n1 && n2) {
+                    const x1 = getX(n1.x);
+                    const y1 = getY(n1.y);
+                    const x2 = getX(n2.x);
+                    const y2 = getY(n2.y);
+
+                    const midX = (x1 + x2) / 2;
+                    const midY = (y1 + y2) / 2;
+
+                    // Draw Bubble Background
+                    ctx.beginPath();
+                    ctx.fillStyle = "#0F172A"; // Dark Blue BG
+                    ctx.arc(midX, midY, 9, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Draw Weight Text
+                    ctx.fillStyle = "#94A3B8"; // Grey Text
+                    ctx.fillText(edge.weight, midX, midY);
+                }
+            }
+
+            // --- LAYER 3: NODES ---
+            const NODE_RADIUS = 12; // Bigger Nodes
+
+            for (let node of data.nodes) {
+                const x = getX(node.x);
+                const y = getY(node.y);
+
+                ctx.beginPath();
+                ctx.arc(x, y, NODE_RADIUS, 0, Math.PI * 2);
+
+                if (node.id === data.startNode) {
+                    ctx.fillStyle = "#3B82F6"; // Blue Start
+                    ctx.fill();
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = "white";
+                    ctx.stroke();
+                } else if (node.id === data.endNode) {
+                    ctx.fillStyle = "#EF4444"; // Red End
+                    ctx.fill();
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = "white";
+                    ctx.stroke();
+                } else {
+                    ctx.fillStyle = "#22C55E"; // Green
+                    ctx.fill();
+                }
+            }
+
+            // --- LAYER 4: LABELS ---
+            ctx.fillStyle = "#fff";
+            ctx.font = "bold 13px sans-serif";
+
+            for (let node of data.nodes) {
+                // Draw text slightly below the big node
+                ctx.fillText(node.id, getX(node.x), getY(node.y) + 24);
+            }
+        }
+    </script>
+</body>
+
+</html>

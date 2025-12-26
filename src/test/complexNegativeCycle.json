@@ -1,0 +1,30 @@
+{
+  "title": "Complex Infinite Loop (8 Nodes)",
+  "description": "A larger graph with a safe upper path and a lower path that traps the user in a 3-node negative cycle (D->E->F->D).",
+  "startNode": "Start",
+  "endNode": "Target",
+  "nodes": [
+    { "id": "Start", "x": 50, "y": 300 },
+    { "id": "A", "x": 200, "y": 150 },
+    { "id": "B", "x": 400, "y": 150 },
+    { "id": "Target", "x": 600, "y": 300 },
+    { "id": "C", "x": 150, "y": 450 },
+    { "id": "D", "x": 300, "y": 450 },
+    { "id": "E", "x": 450, "y": 550 },
+    { "id": "F", "x": 300, "y": 550 }
+  ],
+  "edges": [
+    { "from": "Start", "to": "A", "weight": 10 },
+    { "from": "A", "to": "B", "weight": 10 },
+    { "from": "B", "to": "Target", "weight": 10 },
+    
+    { "from": "Start", "to": "C", "weight": 5 },
+    { "from": "C", "to": "D", "weight": 5 },
+    
+    { "from": "D", "to": "E", "weight": 4 },
+    { "from": "E", "to": "F", "weight": -10 },
+    { "from": "F", "to": "D", "weight": 3 },
+    
+    { "from": "F", "to": "Target", "weight": 15 }
+  ]
+}

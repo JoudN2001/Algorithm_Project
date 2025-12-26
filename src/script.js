@@ -127,7 +127,7 @@ runBtn.addEventListener("click", function (event) {
         result = instance.run();
         break;
       case "dijkstra-pq":
-        console.log("Running Enhanced Dijkstra...");
+        console.log("Running Enhanced Priority Queue Dijkstra...");
         instance = new PriorityQueueDijkstra(uploadedGraphData);
         result = instance.run();
         break;
@@ -138,8 +138,8 @@ runBtn.addEventListener("click", function (event) {
         break;
       case "bellman":
         console.log("Running Bellman-Ford...");
-        // instance = new BellmanFord(uploadedGraphData);
-        // result = instance.run();
+        instance = new BellmanFord(uploadedGraphData);
+        result = instance.run();
         break;
       default:
         console.error("No valid algorithm selected.");
@@ -151,7 +151,7 @@ runBtn.addEventListener("click", function (event) {
       const cost = result.cost;
       const end = performance.now();
       const runtime = end - start;
-      logOutput.textContent = `> Running Dijkstra's Algorithm...\n-------------------\nDijkstra's Algorithm Logs:\n${logs}\n-------------------\nShortest Path: ${path}\nTotal Cost: ${cost}\nRuntime: ${runtime}ms`;
+      logOutput.textContent = `> Running Algorithm...\n-------------------\n${logs}\n-------------------\nShortest Path: ${path}\nTotal Cost: ${cost}\nRuntime: ${runtime}ms`;
     }
   }
 });
@@ -371,7 +371,7 @@ class Dijkstra {
 
     // The distance to the start node is always 0
     distances.set(startNodeId, 0);
-    logs.push("Initial state: Start at [".concat(startNodeId, "] with distance 0"););
+    logs.push("Initial state: Start at [".concat(startNodeId, "] with distance 0"));
 
     // --- Main Algorithm Loop ---
     while (unvisited.size > 0) {
@@ -385,12 +385,12 @@ class Dijkstra {
 
       // STOP CONDITION 2: Target reached
       if (currentNode === endNodeId) {
-        logs.push("Target [".concat(endNodeId, "] reached!"););
+        logs.push("Target [".concat(endNodeId, "] reached!"));
         break;
       }
 
       // Step 2: Mark the current node as visited
-      logs.push("Visiting node [".concat(currentNode, "] with current cost ").concat(distances.get(currentNode)););
+      logs.push("Visiting node [".concat(currentNode, "] with current cost ").concat(distances.get(currentNode)));
       unvisited.delete(currentNode);
 
       // Step 3: Explore Neighbors (Relaxation Step)
@@ -405,7 +405,7 @@ class Dijkstra {
         let currentNeighborDist = distances.get(neighbor.to);
 
         // Debugging log (comment out in production)
-        logs.push("Checking neighbor ".concat(neighbor.to, ": newDist ").concat(newDist, " vs old ").concat(currentNeighborDist););
+        logs.push("Checking neighbor ".concat(neighbor.to, ": newDist ").concat(newDist, " vs old ").concat(currentNeighborDist));
 
         // If we found a shorter path, update the records
         if (newDist < currentNeighborDist) {
@@ -593,7 +593,7 @@ class PriorityQueueDijkstra {
     distances.set(startNodeId, 0);
     pq.push([0, startNodeId]); // Format: [distance, nodeId]
 
-    logs.push("Started at [".concat(startNodeId, "] with cost 0"););
+    logs.push("Started at [".concat(startNodeId, "] with cost 0"));
 
     // --- LOOP ---
     while (!pq.isEmpty()) {
@@ -604,13 +604,13 @@ class PriorityQueueDijkstra {
 
       // Stop if we reached the target
       if (currentNode === endNodeId) {
-        logs.push("Target [".concat(currentNode, "] reached! Cost: ").concat(currentDist););
+        logs.push("Target [".concat(currentNode, "] reached! Cost: ").concat(currentDist));
         break;
       }
 
       // Skip if we found a shorter way to this node previously
       if (currentDist > distances.get(currentNode)) continue;
-      logs.push("Visiting [".concat(currentNode, "] (Cost: ").concat(currentDist, ")"););
+      logs.push("Visiting [".concat(currentNode, "] (Cost: ").concat(currentDist, ")"));
 
       // 2. Check Neighbors (from the Map we built in the constructor)
       const neighbors = this.adjacencyList.get(currentNode) || [];
@@ -626,7 +626,7 @@ class PriorityQueueDijkstra {
           // PUSH to Heap: This is how data enters the Heap dynamically
           pq.push([newDist, neighbor.to]);
 
-          logs.push("Updated [".concat(neighbor.to, "]: ").concat(oldDist, " -> ").concat(newDist););
+          logs.push("Updated [".concat(neighbor.to, "]: ").concat(oldDist, " -> ").concat(newDist));
         }
       }
     }
@@ -654,7 +654,133 @@ class PriorityQueueDijkstra {
 `;
       break;
     case "bellman":
-      code.textContent = `code4`;
+      code.textContent = `class BellmanFord {
+  constructor(graphData) {
+    /**
+     * Constructor
+     * @param {Object} graphData - JSON with nodes and edges
+     */
+    this.nodes = graphData.nodes || [];
+    this.startNode = graphData.startNode;
+    this.endNode = graphData.endNode;
+
+    // FLATTEN EDGES: Bellman-Ford likes a simple list of edges, not an Adjacency List.
+    // We convert the graphData.edges array directly into a format we can loop over easily.
+    this.edges = [];
+    if (graphData.edges) {
+      graphData.edges.forEach((edge) => {
+        this.edges.push({
+          from: edge.from,
+          to: edge.to,
+          weight: Number(edge.weight),
+        });
+      });
+    }
+  }
+
+  run(startNodeId = this.startNode, endNodeId = this.endNode) {
+    let logs = [];
+    let V = this.nodes.length;
+    let E = this.edges.length;
+
+    // --- Data Structures ---
+    let distances = new Map();
+    let previous = new Map();
+
+    this.nodes.forEach((node) => {
+      distances.set(node.id, Infinity);
+      previous.set(node.id, null);
+    });
+
+    if (!distances.has(startNodeId)) {
+      logs.push("Error: Start node ".concat(startNodeId, " not found.");
+      return { found: false, path: [], cost: 0, logs: logs };
+    }
+    logs.push("Start Node: ".concat(startNodeId, ", End Node: ").concat(endNodeId));
+
+    distances.set(startNodeId, 0);
+    logs.push("Initialized start node [".concat(startNodeId, "] with distance 0"));
+
+    // --- 1. Main Relaxation Loop (V-1 times) ---
+    // We run this loop to propagate shortest paths
+    let changed = false;
+    for (let i = 0; i < V - 1; i++) {
+      changed = false;
+      for (let edge of this.edges) {
+        let u = edge.from;
+        let v = edge.to;
+        let w = edge.weight;
+
+        if (
+          distances.get(u) !== Infinity &&
+          distances.get(v) > distances.get(u) + w
+        ) {
+          let newDist = distances.get(u) + w;
+          distances.set(v, newDist);
+          previous.set(v, u);
+          changed = true;
+          // Only logging distinct updates to keep logs clean
+          logs.push("Iter ".concat(i, ": Updated [").concat(v, "] to cost ").concat(newDist, " via [").concat(u, "]"););
+        }
+      }
+      // Optimization: If nothing changed, we are done early
+      if (!changed) {
+        logs.push(
+          "Optimization: No updates in iteration ".concat(i, ". Stopping early.");
+        );
+        break;
+      }
+    }
+
+    // --- 2. Negative Cycle Detection (Run once AFTER the loop) ---
+    for (let edge of this.edges) {
+      let u = edge.from;
+      let v = edge.to;
+      let w = edge.weight;
+
+      if (
+        distances.get(u) !== Infinity &&
+        distances.get(v) > distances.get(u) + w
+      ) {
+        logs.push(
+          "CRITICAL: Negative Cycle Detected involving edge ".concat(u, " -> ").concat(v, "!")
+        );
+        return {
+          found: false,
+          cost: Infinity,
+          path: [],
+          logs: logs,
+          error: "Negative Cycle Detected",
+        };
+      }
+    }
+
+    // --- 3. Path Reconstruction ---
+    if (distances.get(endNodeId) === Infinity) {
+      logs.push("Target [".concat(endNodeId, "] is unreachable."));
+      return { found: false, cost: Infinity, path: [], logs: logs };
+    }
+
+    let path = [];
+    let current = endNodeId;
+    while (current !== null) {
+      path.unshift(current);
+      current = previous.get(current);
+    }
+
+    logs.push(
+      "Path found: ".concat(path.join(" -> "), " with cost ").concat(distances.get(endNodeId))
+    );
+
+    return {
+      found: true,
+      cost: distances.get(endNodeId),
+      path: path,
+      logs: logs,
+    };
+  }
+}
+`;
       break;
     case "A*":
       code.textContent = `code3`;

@@ -145,7 +145,7 @@ class PriorityQueueDijkstra {
     // --- START ---
     distances.set(startNodeId, 0);
     pq.push([0, startNodeId]); // Format: [distance, nodeId]
-
+    logs.push(`Start Node: ${startNodeId}, End Node: ${endNodeId}`);
     logs.push(`Started at [${startNodeId}] with cost 0`);
 
     // --- LOOP ---
