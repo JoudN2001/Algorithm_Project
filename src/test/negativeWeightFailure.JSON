@@ -11,6 +11,7 @@
   "edges": [
     { "from": "C", "to": "B", "weight": -20 },
     { "from": "A", "to": "C", "weight": 10 },
-    { "from": "A", "to": "B", "weight": 5 }
+    { "from": "A", "to": "B", "weight": 5 },
+    { "from": "C", "to": "A", "weight": 5 }
   ]
 }
