@@ -12,7 +12,7 @@ The project was developed in three academic phases, progressing from theoretical
 
 * Minimize travel cost/distance/time.  
 * Visualize graph traversal algorithms in real-time.  
-* Compare algorithmic efficiency ($O(V^2)$ vs $O(E \\log V)$ vs $O(VE)$).  
+* Compare algorithmic efficiency $O(V^2)$ vs $O(E \\log V)$ vs $O(VE)$.  
 * Address the limitations of Classical Computing regarding NP-Hard problems (TSP).
 
 ## **🚀 Key Features**
@@ -21,9 +21,9 @@ The project was developed in three academic phases, progressing from theoretical
 * **Mobile-First Design:** Fully responsive UI/UX designed for field usage on mobile devices.  
 * **Custom Map Import:** Accepts JSON file uploads to test various graph topologies (Cyclic, Disconnected, Trap Maps).  
 * **Multiple Algorithm Engines:**  
-  * **Dijkstra (Linear):** Baseline implementation for dense graphs ($O(V^2)$).  
-  * **Dijkstra (Min-Heap):** Optimized implementation using a Priority Queue for sparse networks ($O(E \\log V)$).  
-  * **Bellman-Ford:** Robust engine for graphs with negative weights (Energy Rebates) and negative cycle detection ($O(VE)$).  
+  * **Dijkstra (Linear):** Baseline implementation for dense graphs $O(V^2)$.  
+  * **Dijkstra (Min-Heap):** Optimized implementation using a Priority Queue for sparse networks $O(E \\log V)$.  
+  * **Bellman-Ford:** Robust engine for graphs with negative weights (Energy Rebates) and negative cycle detection $O(VE)$.  
 * **Performance Metrics:** Displays real-time execution logs, runtime comparisons, and cost analysis.
 
 ## **🛠️ Tech Stack**
@@ -36,30 +36,30 @@ The project was developed in three academic phases, progressing from theoretical
 ## **📂 Project Structure**
 ```
 Algorithm\_Project/  
-├── docs/                   \# Academic Reports & Proposals  
+├── docs/                   # Academic Reports & Proposals  
 │   ├── phase-1-proposal.pdf  
 │   ├── phase-2-proposal.pdf  
 │   ├── phase-3-proposal.pdf  
 │   └── final-presentation.pdf  
-├── src/                    \# Source Code  
-│   ├── index.html          \# Main Application Entry  
-│   ├── map\_viewer.html     \# Dedicated map viewing tool  
-│   ├── styles.css          \# Mobile-First Styling  
-│   ├── script.js           \# DOM Manipulation & Rendering Logic  
-│   ├── Dijkstra.js         \# Standard Dijkstra Implementation (Set)  
-│   ├── PriorityQueueDijkstra.js \# Optimized Dijkstra (Min-Heap)  
-│   ├── BellmanFord.js      \# Bellman-Ford Implementation  
-│   └── normalize.css       \# Browser Reset  
-└── test/                   \# JSON Test Cases  
-    ├── simpleMap.json                  \# Standard verification  
-    ├── theTrapMap.json                 \# Performance trap for Greedy algos  
-    ├── negativeWeightFailure.json      \# Fails Dijkstra, requires Bellman-Ford  
-    ├── dangerous\_negative\_map.json     \# Complex energy rebate scenario  
-    ├── complexNegativeCycle.json       \# Infinite energy loop detection  
-    ├── gps\_city\_map.json               \# Large scale map simulation  
-    ├── large\_performance\_test.json     \# Stress testing  
-    ├── shuffled\_performance\_test.json  \# Randomized edge order testing  
-    └── shuffled\_performance\_test\_with\_ngative.json \# Bellman-Ford stress test
+├── src/                    # Source Code  
+│   ├── index.html          # Main Application Entry  
+│   ├── map\_viewer.html     # Dedicated map viewing tool  
+│   ├── styles.css          # Mobile-First Styling  
+│   ├── script.js           # DOM Manipulation & Rendering Logic  
+│   ├── Dijkstra.js         # Standard Dijkstra Implementation (Set)  
+│   ├── PriorityQueueDijkstra.js # Optimized Dijkstra (Min-Heap)  
+│   ├── BellmanFord.js      # Bellman-Ford Implementation  
+│   └── normalize.css       # Browser Reset  
+└── test/                   # JSON Test Cases  
+    ├── simpleMap.json                  # Standard verification  
+    ├── theTrapMap.json                 # Performance trap for Greedy algos  
+    ├── negativeWeightFailure.json      # Fails Dijkstra, requires Bellman-Ford  
+    ├── dangerous_negative_map.json     # Complex energy rebate scenario  
+    ├── complexNegativeCycle.json       # Infinite energy loop detection  
+    ├── gps_city_map.json               # Large scale map simulation  
+    ├── large_performance_test.json     # Stress testing  
+    ├── shuffled_performance_test.json  # Randomized edge order testing  
+    └── shuffled_performance_test_with_ngative.json # Bellman-Ford stress test
 ```
 ## **🧪 Testing & Analysis**
 
@@ -86,8 +86,8 @@ We rigorously tested the system against distinct topologies to validate correctn
 
 | Algorithm | Data Structure | Time Complexity | Suitability |
 | :---- | :---- | :---- | :---- |
-| **Dijkstra (Phase 2\)** | Linear Set | $O(V^2)$ | Dense Graphs, Small Datasets |
-| **Dijkstra (Phase 3\)** | Min-Heap | $O((V+E) \\log V)$ | Sparse Graphs, Standard Navigation |
+| **Dijkstra (Phase 2)** | Linear Set | $O(V^2)$ | Dense Graphs, Small Datasets |
+| **Dijkstra (Phase 3)** | Min-Heap | $O((V+E) \\log V)$ | Sparse Graphs, Standard Navigation |
 | **Bellman-Ford** | Edge List | $O(V \\cdot E)$ | **Energy Grids (Negative Weights)** |
 
 ## **⚡ How to Run**
@@ -113,3 +113,4 @@ git clone https://github.com/JoudN2001/Algorithm_Project.git
 * **Joud Kayyali** (3230601030)  
 
 *"We do not live in a utopia, but we strive to create it."* — This project represents our journey from naive implementation to understanding the fundamental limits of computation (P vs NP).
+
